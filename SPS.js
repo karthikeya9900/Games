@@ -141,4 +141,18 @@ function main() {
   printMessage("Thank You For Your Precious Time");
 }
 
-main();
+// main();
+
+function tableUI() {
+  let table = "\n   " + repeat("-", 90);
+  table += "\n  " + "|    AI Choice    |    Player Choice    |     Winner    |";
+  table += "    AI Score    |    Your Score   |";
+  table += "\n   " + repeat("-", 90);
+  table += "\n  |        🪨       |          ✂️          |       🪨      |";
+  table += "       1        |        0        |";
+  table += "\n   " + repeat("-", 90)
+
+  printMessage(table);
+}
+
+tableUI();

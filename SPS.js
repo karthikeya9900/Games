@@ -6,6 +6,23 @@ const instructionsForInput = "\n ENTER \n 1.for 🪨 \n 2.for ✂️ \n 3.for �
 let computerScore = 0;
 let playerScore = 0;
 
+// need to ask about this function and using of global scope for score
+function printAndResetScores() {
+  printMessage("\n  player score:" + playerScore);
+  printMessage("\n  computer score:" + computerScore);
+
+  playerScore = 0;
+  computerScore = 0;
+}
+
+function printMessage(message) {
+  console.log(message);
+}
+
+function getComputerChoice() {
+  return Math.ceil(Math.random() * 3);
+}
+
 function welcomeMsg() {
   let welcomeMsg = "\n    " + repeat("-", 80) + "  \n   |     \t 🪨 📄 ✂️ ";
   welcomeMsg += "Welcome to Stone Paper Scissor Game ✂️ 📄 🪨 \t\t    |";
@@ -13,41 +30,33 @@ function welcomeMsg() {
   welcomeMsg += " To Beat The Computer     |\n   |\t\t\t\t   👍All The Best 👍";
   welcomeMsg += "\t\t\t\t    |\n    " + repeat("-", 80);
 
-  printMessage(welcomeMsg);
+  return welcomeMsg;
 }
 
 function decideGameWinner() {
   if (playerScore > computerScore) {
-    return playerWinMsg();
+    return makeFrame("🏆 🏆 !! CONGRATULATIONS YOU WON !! 🏆 🏆");
   }
 
   if (playerScore < computerScore) {
-    return computerWinMsg();
+    return makeFrame("💔 😢OOPS!! Better Luck Next Time 👍 \t");
   }
 
-  return gameTieMessage();
+  return makeFrame("     😋It's A Tie Game😋 \t\t ");
 }
 
-function playerWinMsg() {
+function makeFrame(text) {
   let message = "\n  " + repeat("-", 74);
-  message += "\n | \t\t  🏆 🏆 !! CONGRATULATIONS YOU WON !! 🏆 🏆 \t \t    | ";
+  message += "\n | \t\t  " + text + " \t \t    | ";
   message += "\n  " + repeat("-", 74);
 
   return message;
 }
 
-function gameTieMessage() {
-  let message = "\n  " + repeat("-", 74);
-  message += "\n |\t\t\t     😋It's A Tie Game😋 \t\t\t    | ";
-  message += "\n  " + repeat("-", 74);
-
-  return message;
-}
-
-function computerWinMsg() {
-  let message = "\n  " + repeat("-", 74);
-  message += "\n | \t\t💔 😢OOPS!! Sorry Computer Won, Better Luck Next";
-  message += " Time 👍    | \n  " + repeat("-", 74);
+function makeSmallFrame(text) {
+  let message = "\n  " + repeat("-", 22);
+  message += "\n |\t" + text + "\t|";
+  message += "\n  " + repeat("-", 22);
 
   return message;
 }
@@ -60,22 +69,6 @@ function repeat(char, times) {
   }
 
   return repeatedString;
-}
-
-function printMessage(message) {
-  console.log(message);
-}
-
-function printAndResetScores() {
-  printMessage("\n  player score:" + playerScore);
-  printMessage("\n  computer score:" + computerScore);
-
-  playerScore = 0;
-  computerScore = 0;
-}
-
-function giveRandomly1to3() {
-  return Math.ceil(Math.random() * 3);
 }
 
 function readInputFromUser() {
@@ -94,17 +87,17 @@ function readInputFromUser() {
 function decideRoundWinner(playerWinStatus) {
   if (playerWinStatus) {
     playerScore = playerScore + 1;
-    return "\n player won";
+    return makeSmallFrame("player won");
   }
 
   computerScore = computerScore + 1;
-  return "\n computer won";
+  return makeSmallFrame("computer won");
 }
 
 function displayRoundWinner(playerInput, computerChoice) {
 
   if (playerInput === computerChoice) {
-    return "\n It Is A TIE ";
+    return makeSmallFrame("It Is A TIE  ");
   }
 
   const scissorHitPaper = playerInput === 2 && computerChoice === 3;
@@ -119,7 +112,7 @@ function playRPS() {
   let noOfTimes = 5;
 
   while (noOfTimes >= 1) {
-    printMessage(displayRoundWinner(giveRandomly1to3(), readInputFromUser()));
+    printMessage(displayRoundWinner(getComputerChoice(), readInputFromUser()));
     noOfTimes = noOfTimes - 1;
   }
 
@@ -132,7 +125,7 @@ function playRPS() {
 }
 
 function main() {
-  welcomeMsg();
+  printMessage(welcomeMsg());
 
   if (confirm("do you want play this game:")) {
     playRPS();
@@ -141,8 +134,9 @@ function main() {
   printMessage("Thank You For Your Precious Time");
 }
 
-// main();
+main();
 
+// this function is not completed
 function tableUI() {
   let table = "\n   " + repeat("-", 90);
   table += "\n  " + "|    AI Choice    |    Player Choice    |     Winner    |";
@@ -150,9 +144,16 @@ function tableUI() {
   table += "\n   " + repeat("-", 90);
   table += "\n  |        🪨       |          ✂️          |       🪨      |";
   table += "       1        |        0        |";
-  table += "\n   " + repeat("-", 90)
+  table += "\n   " + repeat("-", 90);
 
   printMessage(table);
 }
 
-tableUI();
+/* 
+need to ask mentors 
+
+1. global scope using of scores 
+2. some functions does not contains ant return statements
+3. need to ask about msg functions
+
+*/

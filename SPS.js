@@ -15,6 +15,14 @@ function printAndResetScores() {
   computerScore = 0;
 }
 
+function getEmoji(value) {
+  if (value === 1) {
+    return " 🪨 ";
+  }
+
+  return value === 2 ? " ✂️ " : " 📄 ";
+}
+
 function printMessage(message) {
   console.log(message);
 }
@@ -35,17 +43,17 @@ function welcomeMsg() {
 
 function decideGameWinner() {
   if (playerScore > computerScore) {
-    return makeFrame("🏆 🏆 !! CONGRATULATIONS YOU WON !! 🏆 🏆");
+    return alignBigSizeFrame("🏆 🏆 !! CONGRATULATIONS YOU WON !! 🏆 🏆");
   }
 
   if (playerScore < computerScore) {
-    return makeFrame("💔 😢OOPS!! Better Luck Next Time 👍 \t");
+    return alignBigSizeFrame("💔 😢OOPS!! Better Luck Next Time 👍 \t");
   }
 
-  return makeFrame("     😋It's A Tie Game😋 \t\t ");
+  return alignBigSizeFrame("     😋It's A Tie Game😋 \t\t ");
 }
 
-function makeFrame(text) {
+function alignBigSizeFrame(text) {
   let message = "\n  " + repeat("-", 74);
   message += "\n | \t\t  " + text + " \t \t    | ";
   message += "\n  " + repeat("-", 74);
@@ -53,7 +61,15 @@ function makeFrame(text) {
   return message;
 }
 
-function makeSmallFrame(text) {
+function alignMediumSizeFrame(text) {
+  let message = "\n  " + repeat("-", 30);
+  message += "\n |\t" + text + "\t|";
+  message += "\n  " + repeat("-", 30);
+
+  return message;
+}
+
+function alignSmallSizeFrame(text) {
   let message = "\n  " + repeat("-", 22);
   message += "\n |\t" + text + "\t|";
   message += "\n  " + repeat("-", 22);
@@ -72,9 +88,11 @@ function repeat(char, times) {
 }
 
 function readInputFromUser() {
+  printMessage(repeat("-", 50));
   printMessage(instructionsForInput);
 
   const userInput = +prompt("enter your choice:");
+
 
   if (userInput >= 1 && userInput <= 3) {
     return userInput;
@@ -87,17 +105,19 @@ function readInputFromUser() {
 function decideRoundWinner(playerWinStatus) {
   if (playerWinStatus) {
     playerScore = playerScore + 1;
-    return makeSmallFrame("player won");
+    return alignSmallSizeFrame("player won");
   }
 
   computerScore = computerScore + 1;
-  return makeSmallFrame("computer won");
+  return alignSmallSizeFrame("computer won");
 }
 
 function displayRoundWinner(playerInput, computerChoice) {
+  printMessage(alignMediumSizeFrame("computer choice:" + getEmoji(computerChoice)));
+  printMessage(alignMediumSizeFrame("player choice:" + getEmoji(playerInput)));
 
   if (playerInput === computerChoice) {
-    return makeSmallFrame("It Is A TIE  ");
+    return alignSmallSizeFrame("It Is A TIE  ");
   }
 
   const scissorHitPaper = playerInput === 2 && computerChoice === 3;
@@ -148,12 +168,3 @@ function tableUI() {
 
   printMessage(table);
 }
-
-/* 
-need to ask mentors 
-
-1. global scope using of scores 
-2. some functions does not contains ant return statements
-3. need to ask about msg functions
-
-*/

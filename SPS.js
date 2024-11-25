@@ -43,17 +43,17 @@ function welcomeMsg() {
 
 function decideGameWinner() {
   if (playerScore > computerScore) {
-    return alignBigSizeFrame("🏆 🏆 !! CONGRATULATIONS YOU WON !! 🏆 🏆");
+    return frameWinnerMsg("🏆 🏆 !! CONGRATULATIONS YOU WON !! 🏆 🏆");
   }
 
   if (playerScore < computerScore) {
-    return alignBigSizeFrame("💔 😢OOPS!! Better Luck Next Time 👍 \t");
+    return frameWinnerMsg("💔 😢OOPS!! Better Luck Next Time 👍 \t");
   }
 
-  return alignBigSizeFrame("     😋It's A Tie Game😋 \t\t ");
+  return frameWinnerMsg("     😋It's A Tie Game😋 \t\t ");
 }
 
-function alignBigSizeFrame(text) {
+function frameWinnerMsg(text) {
   let message = "\n  " + repeat("-", 74);
   message += "\n | \t\t  " + text + " \t \t    | ";
   message += "\n  " + repeat("-", 74);
@@ -61,7 +61,7 @@ function alignBigSizeFrame(text) {
   return message;
 }
 
-function alignMediumSizeFrame(text) {
+function frameOption(text) {
   let message = "\n  " + repeat("-", 30);
   message += "\n |\t" + text + "\t|";
   message += "\n  " + repeat("-", 30);
@@ -69,7 +69,7 @@ function alignMediumSizeFrame(text) {
   return message;
 }
 
-function alignSmallSizeFrame(text) {
+function frameRoundWinnerMsg(text) {
   let message = "\n  " + repeat("-", 22);
   message += "\n |\t" + text + "\t|";
   message += "\n  " + repeat("-", 22);
@@ -105,19 +105,19 @@ function readInputFromUser() {
 function decideRoundWinner(playerWinStatus) {
   if (playerWinStatus) {
     playerScore = playerScore + 1;
-    return alignSmallSizeFrame("player won");
+    return frameRoundWinnerMsg("player won");
   }
 
   computerScore = computerScore + 1;
-  return alignSmallSizeFrame("computer won");
+  return frameRoundWinnerMsg("computer won");
 }
 
 function displayRoundWinner(playerInput, computerChoice) {
-  printMessage(alignMediumSizeFrame("computer choice:" + getEmoji(computerChoice)));
-  printMessage(alignMediumSizeFrame("player choice:" + getEmoji(playerInput)));
+  printMessage(frameOption("computer choice:" + getEmoji(computerChoice)));
+  printMessage(frameOption("player choice:" + getEmoji(playerInput)));
 
   if (playerInput === computerChoice) {
-    return alignSmallSizeFrame("It Is A TIE  ");
+    return frameRoundWinnerMsg("It Is A TIE  ");
   }
 
   const scissorHitPaper = playerInput === 2 && computerChoice === 3;
@@ -132,7 +132,7 @@ function playRPS() {
   let noOfTimes = 5;
 
   while (noOfTimes >= 1) {
-    printMessage(displayRoundWinner(getComputerChoice(), readInputFromUser()));
+    printMessage(displayRoundWinner(readInputFromUser(), getComputerChoice()));
     noOfTimes = noOfTimes - 1;
   }
 

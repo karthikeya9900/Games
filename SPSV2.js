@@ -14,7 +14,7 @@ function welcomeMsg() {
   welcomeMsg += "\n   |    You Have 5 Atttempts In The Five Attempts You Have";
   welcomeMsg += " To Beat The Computer     |\n   |\t\t\t\t   👍All The Best 👍";
   welcomeMsg += "\t\t\t\t    |\n    " + repeat("-", 80);
-  
+
   return welcomeMsg;
 }
 
@@ -92,29 +92,19 @@ function decideGameWinner(playerScore, computerScore) {
   return frameWinnerMsg("     😋It's A Tie Game😋 \t\t ");
 }
 
-function decideRoundWinner(playerInput, computerChoice) {
+function isPlayerWonThisRound(playerInput, computerChoice) {
+  printMessage(frameOption("computer choice:" + getEmoji(computerChoice)));
+  printMessage(frameOption("player choice:" + getEmoji(playerInput)));
+
   const scissorHitPaper = playerInput === 2 && computerChoice === 3;
   const paperHitRock = playerInput === 3 && computerChoice === 1;
   const rockHitScissor = playerInput === 1 && computerChoice === 2;
   const isPlayerWon = scissorHitPaper || paperHitRock || rockHitScissor;
 
-
   isPlayerWon ? printMessage(frameRoundWinnerMsg("player won")) :
     printMessage(frameRoundWinnerMsg("computer won"));
 
   return isPlayerWon;
-}
-
-function updateScore(playerInput, computerChoice) {
-  printMessage(frameOption("computer choice:" + getEmoji(computerChoice)));
-  printMessage(frameOption("player choice:" + getEmoji(playerInput)));
-
-  if (playerInput === computerChoice) {
-    printMessage(frameRoundWinnerMsg("It Is A TIE  "));
-    return 0;
-  }
-
-  return decideRoundWinner(playerInput, computerChoice);
 }
 
 function playRPS() {
@@ -123,18 +113,30 @@ function playRPS() {
   let computerScore = 0;
 
   while (noOfTimes >= 1) {
-    const isPlayerWon = updateScore(readUserInput(), getComputerChoice());
-    isPlayerWon ? playerScore += 1 : computerScore += 1;
+    const playerInput = readUserInput();
+    const computerChoice = getComputerChoice();
+
+    if (playerInput === computerChoice) {
+      printMessage(frameRoundWinnerMsg("It Is A TIE  "));
+      continue;
+    }
+
+    const isPlayerWonInRound = isPlayerWonThisRound(playerInput,computerChoice);
+    isPlayerWonInRound ? playerScore += 1 : computerScore += 1;
     noOfTimes = noOfTimes - 1;
   }
 
-  printMessage("player score: " + playerScore);
-  printMessage("computer score: " + computerScore);
-  printMessage(decideGameWinner(playerScore, computerScore));
+  printScoresAndWinner(playerScore, computerScore);
 
   if (confirm("do you want play again:")) {
     playRPS();
   }
+}
+
+function printScoresAndWinner(playerScore, computerScore) {
+  printMessage("player score: " + playerScore);
+  printMessage("computer score: " + computerScore);
+  printMessage(decideGameWinner(playerScore, computerScore));
 }
 
 function main() {

@@ -108,29 +108,41 @@ function isPlayerWonThisRound(playerInput, computerChoice) {
 }
 
 function playRPS() {
-  let noOfTimes = 5;
-  let playerScore = 0;
-  let computerScore = 0;
-
-  while (noOfTimes >= 1) {
-    const playerInput = readUserInput();
-    const computerChoice = getComputerChoice();
-
-    if (playerInput === computerChoice) {
-      printMessage(frameRoundWinnerMsg("It Is A TIE  "));
-      continue;
-    }
-
-    const isPlayerWonInRound = isPlayerWonThisRound(playerInput,computerChoice);
-    isPlayerWonInRound ? playerScore += 1 : computerScore += 1;
-    noOfTimes = noOfTimes - 1;
-  }
-
-  printScoresAndWinner(playerScore, computerScore);
+  playRounds();
 
   if (confirm("do you want play again:")) {
     playRPS();
   }
+}
+
+function isUserInputAndcomputerInputSame(playerInput, computerChoice) {
+  if (playerInput === computerChoice) {
+    printMessage(frameOption("computer choice:" + getEmoji(computerChoice)));
+    printMessage(frameOption("player choice:" + getEmoji(playerInput)));
+    printMessage(frameRoundWinnerMsg("It Is A TIE  "));
+    return true;
+  }
+
+  return false;
+}
+
+function playRounds() {
+  let playerScore = 0;
+  let computerScore = 0;
+
+  for (let noOfTimes = 1; noOfTimes <= 5; noOfTimes++) {
+    const playerInput = readUserInput();
+    const computerChoice = getComputerChoice();
+    
+    if (isUserInputAndcomputerInputSame(playerInput, computerChoice)) {
+      continue;
+    }
+
+    const isPlayerWonInRound = isPlayerWonThisRound(playerInput, computerChoice);
+    isPlayerWonInRound ? playerScore += 1 : computerScore += 1;
+  }
+
+  printScoresAndWinner(playerScore, computerScore);
 }
 
 function printScoresAndWinner(playerScore, computerScore) {

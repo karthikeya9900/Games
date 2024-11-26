@@ -55,7 +55,6 @@ function decideGameWinner(playerScore, computerScore) {
   return frameForWinnerMsg("        😋It's A Tie Game😋         ");
 }
 
-// this function is working no issue with this
 function readUserInput() {
   const inputInstructions = "\n ENTER \n 1.for 🪨 \n 2.for ✂️ \n 3.for 📄 \n";
   const message = repeat("-", 50) + "\n" + inputInstructions;
@@ -69,7 +68,6 @@ function readUserInput() {
   return readUserInput();
 }
 
-// this function is working no issue with this
 function decideRoundWinner(playerInput, computerInput) {
   const inputsPair = playerInput + "" + computerInput;
   const hasPlayerWon = inputsPair === "12" || inputsPair == "23"
